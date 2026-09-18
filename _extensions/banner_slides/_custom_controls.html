@@ -60,8 +60,41 @@
 
     // --- Layout Fix Script ---
     // A short delay ensures Reveal.js has initialized its layout first
-    setTimeout(function() { 
-      if(window.Reveal) Reveal.layout(); 
-    }, 200); 
+    setTimeout(function() {
+      if(window.Reveal) Reveal.layout();
+    }, 200);
+
+    // --- Menu Table-of-Contents Total Fix ---
+    // The bundled reveal-menu plugin builds its "current/total" row labels
+    // once, calling Reveal.getTotalSlides() before Reveal finishes settling
+    // its slide count for documents with nested (#-grouped) sections. That
+    // bakes in an inflated total (e.g. 51 instead of the correct 47 - one
+    // extra count per # section that has ## children) which never gets
+    // refreshed. Each row's own current number is already correct; only the
+    // shared "/total" suffix is stale, so just correct that suffix in place.
+    function fixMenuTotal() {
+      if (!window.Reveal || typeof Reveal.getTotalSlides !== 'function') return;
+      var total = Reveal.getTotalSlides();
+      var items = document.querySelectorAll(
+        '.slide-menu-item[data-slide-h], .slide-menu-item-vertical[data-slide-h]'
+      );
+      items.forEach(function (li) {
+        var numSpan = li.querySelector('.slide-menu-item-number');
+        if (!numSpan) return;
+        var m = numSpan.textContent.match(/^(\d+)\s*\/\s*\d+(.*)$/);
+        if (m) numSpan.textContent = m[1] + '/' + total + m[2];
+      });
+    }
+
+    // Run once things settle, and again whenever the menu is opened (Reveal
+    // toggles this class on <body>, whatever the trigger: click, the "m"
+    // keyboard shortcut, or the API) so the fix is idempotent and robust.
+    setTimeout(fixMenuTotal, 300);
+    var menuObserver = new MutationObserver(function () {
+      if (document.body.classList.contains('slide-menu-active')) {
+        fixMenuTotal();
+      }
+    });
+    menuObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   });
 </script>
