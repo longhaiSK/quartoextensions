@@ -1,14 +1,27 @@
 ---
-format: headerletter-typst
-date: "October 12, 2026"
-subject: "Recommendation Letter for XXX"
-recipient: "Selection Committee"
-# signature-image: lhsigblue.png
-# recipient-address: |
-#   Line 1 \
-#   Line 2
+format: headerletter-typst          # or, to keep the intermediate .typ file:
+#  headerletter-typst:
+#    keep-typ: true
+
+# ---- Letter metadata ----
+date: last-modified                 # or "June 21, 2026", today, etc.; omit for today's date
+date-format: long                   # default: long (e.g., October 12, 2026)
+subject: "A Letter"                 # shown centred as "Subject: ..." and in the footer
+recipient: "XXX"                    # greeting: "Dear XXX,"; omit to write your own greeting
+recipient-address: |                # optional address block above the subject; omit if not needed
+  Name \
+  Department, Institution \
+  City, Province, Postal Code
+
+# ---- Sender (defaults shown) ----
+sender-name: "Longhai Li"
+sender-title: "Professor of Statistics"
+
+# ---- Images (defaults shown) ----
+header-image: usaskdepthead.png     # letterhead image
+signature-image: lhsigblk.png       # or lhsigblue.png
+# image-dir: "/images"              # optional: folder of your own images, relative to the
+                                    # project root (leading "/"); default is the extension's images/
 ---
 
-I am writing to recommend XXX.
-
-This is the second paragraph.
+Body of the letter.
