@@ -1,0 +1,14 @@
+---
+format: headerletter-typst
+date: "October 12, 2026"
+subject: "Recommendation Letter for XXX"
+recipient: "Selection Committee"
+# signature-image: lhsigblue.png
+# recipient-address: |
+#   Line 1 \
+#   Line 2
+---
+
+I am writing to recommend XXX.
+
+This is the second paragraph.
